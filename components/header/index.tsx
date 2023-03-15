@@ -11,14 +11,14 @@ const Header = () => {
 
   useEffect(() => {
     setToken(localStorage.getItem('token'));
-  }, []);
+  }, [token]);
 
   const onLogoutHandeler = () => {
-    localStorage.clear();
+    localStorage.removeItem('token');
     router.push('/');
   };
 
-  const onChangeHandeler = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeHandeler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
@@ -32,6 +32,7 @@ const Header = () => {
   return (
     <div className="bg-[#263F61] h-[70px] w-full py-4 px-14 flex justify-between items-center flex-wrap">
       <Image src={HeaderLogo} alt="Headerimg" className="bg-[#263F61]" />
+      {/* Here condition added for search functionallity search box will be visible on home page */}
       {token &&
         router.asPath !== '/' &&
         router.pathname !== '/[moviedetails]' && (

@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import LoginCard from '@/components/logincard';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -12,14 +12,12 @@ export default function Home({ data }) {
     password: '',
   });
 
-
   const onChangeHandeler = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
   const onLoginHandeler = async () => {
     const checkToken = data;
-    localStorage.setItem('token', data);
     const userdata = {
       username: value.username,
       password: value.password,
@@ -41,6 +39,7 @@ export default function Home({ data }) {
         username: '',
         password: '',
       });
+      localStorage.setItem('token', data);
       router.push({ pathname: '/home', query: { pageNum: 1 } });
     }
   };
@@ -57,8 +56,9 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
+  console.log(process.env.API_KEY);
   const res = await fetch(
-    'https://api.themoviedb.org/3/authentication/token/new?api_key=36f92e051d1f7b92dd147302b1b51f81'
+    `${process.env.Base_URL}authentication/token/new?api_key=${process.env.API_KEY}`
   );
   const data = await res.json();
 

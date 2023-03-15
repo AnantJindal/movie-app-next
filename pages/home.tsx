@@ -2,55 +2,26 @@ import MovieCard from '@/components/moviecard';
 import Pagination from '@/components/pagination';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { FC } from 'react';
 import WallPaperSvg from '../public/wallpaper.svg';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-export interface MovieInfo {
-  data: {
-    adult: boolean;
-    backdrop_path: string;
-    genre_ids: number[];
-    id: number;
-    media_type: string;
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    release_date: string;
-    title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number;
-  }[];
-}
 interface HomePageProps {
   data: {
     page: number;
     total_pages: number;
     total_results: number;
     results: {
-      adult: boolean;
-      backdrop_path: string;
-      genre_ids: number[];
       id: number;
-      media_type: string;
       original_language: string;
-      original_title: string;
-      overview: string;
-      popularity: number;
       poster_path: string;
-      release_date: string;
       title: string;
-      video: boolean;
       vote_average: number;
-      vote_count: number;
     }[];
   };
 }
 
-const Home = ({ data }: HomePageProps) => {
+const Home: FC<HomePageProps> = ({ data }: HomePageProps) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -82,7 +53,7 @@ const Home = ({ data }: HomePageProps) => {
   };
 
   const onCardClick = (i: number) => {
-    router.push({ pathname: '/movieDetails', query: { movieId: i } });
+    router.push({ pathname: '/moviedetails', query: { movieId: i } });
   };
 
   return (
@@ -110,7 +81,7 @@ export async function getServerSideProps(context: {
   const { pageNum } = context.query;
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/trending/movie/day?api_key=36f92e051d1f7b92dd147302b1b51f81&page=${pageNum}`
+    `${process.env.Base_URL}trending/movie/day?api_key=${process.env.API_KEY}&page=${pageNum}`
   );
   const apiData = await res.json();
 

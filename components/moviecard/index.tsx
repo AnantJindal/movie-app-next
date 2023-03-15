@@ -1,31 +1,21 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { FC } from 'react';
 import PlayerSvg from '../../public/player.svg';
 
 interface MovieCardProps {
   apiData: {
     results: {
-      adult: boolean;
-      backdrop_path: string;
-      genre_ids: number[];
       id: number;
-      media_type: string;
       original_language: string;
-      original_title: string;
-      overview: string;
-      popularity: number;
       poster_path: string;
-      release_date: string;
       title: string;
-      video: boolean;
       vote_average: number;
-      vote_count: number;
     }[];
   };
   onCardClick: React.MouseEventHandler<HTMLImageElement>;
 }
 
-const MovieCard = ({ apiData, onCardClick }: MovieCardProps) => {
+const MovieCard: FC<MovieCardProps> = ({ apiData, onCardClick }: MovieCardProps) => {
   return (
     <div className="flex justify-between flex-wrap">
       {apiData?.results?.map((ele, i: number) => {

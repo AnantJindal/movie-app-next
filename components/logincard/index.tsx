@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Input from '../input';
 
 interface LoginCardProps {
@@ -10,7 +10,7 @@ interface LoginCardProps {
   onLoginHandeler: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const LoginCard = ({
+const LoginCard: FC<LoginCardProps> = ({
   onChangeHandeler,
   value,
   onLoginHandeler,

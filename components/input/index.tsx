@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 interface InputProps {
   type: string;
@@ -8,7 +8,7 @@ interface InputProps {
   name: string;
 }
 
-const Input = ({
+const Input: FC<InputProps> = ({
   type,
   placeholder,
   onChangeHandeler,

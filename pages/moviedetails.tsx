@@ -1,54 +1,33 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import BackButtonSvg from '../public/backbtn.svg';
 import Image from 'next/image';
 import PlayerSvg from '../public/player.svg';
 
 interface TrailerLink {
-  id: string;
-  iso_639_1: string;
-  iso_3166_1: string;
-  key: string;
-  name: string;
-  official: boolean;
-  published_at: string;
-  site: string;
-  size: number;
   type: string;
 }
 
 interface MovieDetailsProps {
   data: {
-    adult: boolean;
-    backdrop_path: string;
-    belongs_to_collection: null;
-    budget: number;
-    genres: [];
-    homepage: string;
-    id: 937278;
-    imdb_id: string;
-    original_language: string;
+    id: number;
     original_title: string;
-    overview: string;
     popularity: number;
     poster_path: string;
-    production_companies: [];
-    production_countries: [];
     release_date: string;
-    revenue: number;
-    runtime: number;
-    spoken_languages: [];
-    status: string;
     tagline: string;
     title: string;
     video: boolean;
     vote_average: number;
-    vote_count: number;
+    overview: string;
   };
   trailerData: TrailerLink;
 }
 
-const MovieDetails = ({ data, trailerData }: MovieDetailsProps) => {
+const MovieDetails: FC<MovieDetailsProps> = ({
+  data,
+  trailerData,
+}: MovieDetailsProps) => {
   const [trailerLink, setTrailerLink] = useState<TrailerLink>();
   const [modal, setModal] = useState<boolean>(false);
   const router = useRouter();
@@ -79,26 +58,30 @@ const MovieDetails = ({ data, trailerData }: MovieDetailsProps) => {
     <>
       <div className="flex relative">
         <div className="text-white basis-[35%] p-14">
-          <Image src={BackButtonSvg} alt="BackButtonSvg" className="mb-6" />
-          <h1 className="mb-4">{data?.original_title}</h1>
-          <p className="mb-4">
+          <Image
+            src={BackButtonSvg}
+            alt="BackButtonSvg"
+            className="mb-6 cursor-pointer"
+            onClick={onBackHandeler}
+          />
+          <h1 className="mb-4 font-medium text-5xl">{data?.original_title}</h1>
+          <p className="mb-4 font-normal text-base">
             Rating: {Math.round((data.vote_average * 10) / 10) / 2}/5
           </p>
-          <p className="mb-4">{data.overview}</p>
+          <p className="mb-4 font-normal text-lg">{data.overview}</p>
           <div className="flex justify-between mb-4">
-            <p>Release Date</p>
-            <p>{data.release_date}</p>
+            <p className='font-normal text-base' >Release Date</p>
+            <p className='font-normal text-base' >{data.release_date}</p>
           </div>
           <div className="flex justify-between mb-4">
-            <p>Orginal Language</p>
-            <p>English, Spanish, French</p>
+            <p className='font-normal text-base' >Orginal Language</p>
+            <p className='font-normal text-base' >English, Spanish, French</p>
           </div>
         </div>
         <div className="relative flex justify-center items-center w-full">
           <img
             src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
             alt="BackgrondSvg"
-            onClick={onBackHandeler}
           />
           <div
             className="absolute w-28 h-28 bg-transparent cursor-pointer"
@@ -137,12 +120,12 @@ export async function getServerSideProps(context: {
   const { movieId } = query;
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=36f92e051d1f7b92dd147302b1b51f81&language=en-US`
+    `${process.env.Base_URL}movie/${movieId}?api_key=${process.env.API_KEY}&language=en-US`
   );
   const data = await res.json();
 
   const MovieRes = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=36f92e051d1f7b92dd147302b1b51f81`
+    `${process.env.Base_URL}movie/${movieId}/videos?api_key=${process.env.API_KEY}`
   );
   const trailerData = await MovieRes.json();
   return {

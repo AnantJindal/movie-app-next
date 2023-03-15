@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Helvetica'), url('/public/fonts/helvetica.otf') format('otf');
+}
+
 *{
   background-color: #0E171E;
 }

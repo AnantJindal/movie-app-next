@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import NextSvg from '../../public/nexticon.svg';
 import PrevSvg from '../../public/prev.svg';
 
@@ -10,7 +10,7 @@ interface PaginationProps {
   onNextPage: MouseEventHandler<HTMLImageElement>;
 }
 
-const Pagination = ({
+const Pagination: FC<PaginationProps> = ({
   onDynamicPageHandeler,
   onPrevPage,
   onNextPage,
@@ -35,7 +35,7 @@ const Pagination = ({
         <div className="flex justify-center gap-9 py-14">
           {getPaginationGroup().map((ele, i) => {
             return (
-              <h1
+              <p
                 key={i}
                 onClick={() => onDynamicPageHandeler(ele)}
                 className={`cursor-pointer text-lg font-bold ${
@@ -45,7 +45,7 @@ const Pagination = ({
                 }`}
               >
                 {ele}
-              </h1>
+              </p>
             );
           })}
         </div>
